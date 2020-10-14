@@ -1,5 +1,5 @@
 ## Zadania
-1. Napisz skrypt przyjmujący rozszerzenie pliku oraz ścieżkę, który wylistuje wszystkie pliki o podanej ścieżce w katalogu.
+1. Napisz skrypt przyjmujący rozszerzenie pliku oraz ścieżkę, który wylistuje wszystkie pliki o podanym rozszerzeniu w podanym w katalogu.
 2. Napisz skrypt, który skopiuje całą strukturę katalogów na podstawie podanej ścieżki (bez kopiowania plików).
 3. Napisz skrypt, który sprawdzi, czy jest uruchomiony jako administrator i zwróci stosowną informacje w przypadku kiedy prawa administratora nie będą nadane.
 4. Napisz skrypt drukujący kolejno N (zdefiniowane parametrem) liczb Fibonacciego.
