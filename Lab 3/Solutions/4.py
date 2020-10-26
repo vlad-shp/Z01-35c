@@ -76,7 +76,7 @@ def startGame(roundsNum):
             resultStr = "Gracz przegrywa"
         print(resultStr)
 
-    printResult(results)
+    printResult(results) 
 
 
 if __name__ == "__main__":
