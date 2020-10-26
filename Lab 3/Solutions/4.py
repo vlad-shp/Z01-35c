@@ -82,4 +82,4 @@ def startGame(roundsNum):
 if __name__ == "__main__":
     print("Gra \"papier kamień nożyce\" ")
     roundsNum = int(input("Podaj liczbę rund: "))
-    startGame(roundsNum)
+    startGame(roundsNum) 
