@@ -3,7 +3,7 @@ Python - [dokumentacja](https://docs.python.org/3/tutorial/index.html)
 
 ## Zadania
 1. ***(1ptk)*** Napisz skrypt przyjmujący rozszerzenie pliku oraz ścieżkę, który wylistuje wszystkie pliki o podanym rozszerzeniu w podanym w katalogu.
-2. ***(2ptk)*** Napisz skrypt, który wylistuje rekursywnie strukturę plików i katalogów dbając o odpowiednie wcięcia.Przykład:
+2. ***(2ptk)*** Napisz skrypt, który wylistuje rekursywnie strukturę plików i katalogów dbając o odpowiednie wcięcia. Przykład:
    
    ![Directory tree](./docs/tree.png)
 
