@@ -5,6 +5,7 @@
 4. Napisz skrypt drukujący kolejno N (zdefiniowane parametrem) liczb Fibonacciego.
 5. Napisz skrypt, który wygeneruje miniaturę na podstawie podanego parametrem pliku wideo. (wykorzystaj do tego program ffmpeg.exe)
 6. Napisz skrypt, który wylistuje rekursywnie strukturę katalogów dbając o odpowiednie wcięcia. (skrypt powinien użyć wewnętrznego wywoływania procedur).
+7. Napisz skrypt, który wyliczy silnie dla podanej liczby.
 
 
 Rozwiązania umieść w folderze `Solutions` i opublikuj w formie ***Pull Request*** do tego repozytorium.
