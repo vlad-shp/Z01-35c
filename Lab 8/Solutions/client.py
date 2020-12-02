@@ -27,7 +27,7 @@ def GetMessageByUserName(userName):
         return api_response.meta.result
 
 
-def Authentication(userName):
+def AuthenticationStatus(userName):
     with openapi_client.ApiClient() as api_client:
         # Create an instance of the API class
         api_instance = openapi_client.UsersApi(api_client)
@@ -76,8 +76,8 @@ def GetMessages():
     root.after(1000, GetMessages)
 
 
-def IsAuthenticated():
-    if Authentication(login.get()):
+def SignIn():
+    if AuthenticationStatus(login.get()):
         root.after(1000, GetMessages)
         canvas.delete("all")
 
@@ -125,7 +125,7 @@ chatHistory = StringVar()
 
 login_entry = Entry(textvariable=login)
 canvas.create_window(150, 20, window=login_entry)
-search_button = Button(text="Sign in", command=IsAuthenticated)
+search_button = Button(text="Sign in", command=SignIn)
 canvas.create_window(150, 50, window=search_button)
 
 canvas.pack(side="right")
