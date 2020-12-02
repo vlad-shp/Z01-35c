@@ -27,7 +27,6 @@ db = SQLAlchemy()
 def test_decorator(f):
     @wraps(f)
     def fwrapper(*args, **kwargs):
-        print(f)
         result = f(*args, **kwargs)
         result.status_code = 200
         #result.headers['Location'] = 'https://blah/bleh'
@@ -220,7 +219,7 @@ app = Flask("SAFRS Demo App", template_folder="/home/thomaxxl/mysite/templates")
 app.secret_key = "not so secret"
 
 app.config.update(SQLALCHEMY_DATABASE_URI="sqlite:///",
-                  DEBUG=True)  # DEBUG will also show safrs log messages + exception messages
+                  DEBUG=False)  # DEBUG will also show safrs log messages + exception messages
 
 @app.route("/")
 def goto_api():
