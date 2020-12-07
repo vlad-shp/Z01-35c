@@ -109,7 +109,7 @@ def SendMail(senderName, recipientName, messageContent):
 # endregion
 
 # region MainFunctionality
-def SendMessage():
+def SendMessage(event=None):
     SendMail(loginVar.get(), friendUserVar.get(), messageContentVar.get())
     messageContentVar.set("")
 
@@ -188,13 +188,13 @@ def SignIn():
         f_botH.pack(side="top")
         f_bot = LabelFrame(f_History, text="Send message")
         messageEntry = Entry(f_bot, textvariable=messageContentVar, width=105)
+        messageEntry.bind('<Return>', SendMessage)
         send_button = Button(f_bot, text="Send", command=SendMessage)
         messageEntry.pack(side="left")
         send_button.pack(side="left")
         f_bot.pack(side="bottom")
     else:
         textLabel.set("Login/password isn't correct")
-
 
 
 def SignUp():
@@ -244,7 +244,7 @@ canvas.create_window(150, 50, window=pass_entry)
 canvas.create_window(120, 80, window=Button(text="Sign in", command=SignIn))
 canvas.create_window(180, 80, window=Button(text="Sign up", command=SignUp))
 
-textLabel=StringVar()
+textLabel = StringVar()
 canvas.create_window(150, 110, window=Label(textvariable=textLabel))
 canvas.pack(side="bottom")
 

@@ -317,7 +317,7 @@ API_PREFIX = "/api"  # swagger location
 app = Flask("SAFRS Demo App", template_folder="/home/thomaxxl/mysite/templates")
 app.secret_key = "not so secret"
 
-app.config.update(SQLALCHEMY_DATABASE_URI="sqlite:///chat.db",
+app.config.update(SQLALCHEMY_DATABASE_URI="sqlite:///",#chat.db
                   DEBUG=True)  # DEBUG will also show safrs log messages + exception messages
 
 
