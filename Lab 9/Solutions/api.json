@@ -1,0 +1,465 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Mini chat",
+        "description": "\nbased on: https://github.com/thomaxxl/safrs\n",
+        "termsOfService": "",
+        "version": "0.0"
+    },
+    "host": "127.0.0.1:5000",
+    "basePath": "/api",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/Messages/GetMessagesByWriterAndRecipientUsers": {
+            "post": {
+                "tags": [
+                    "Messages"
+                ],
+                "description": "GetMessagesByWriterAndRecipientUsers",
+                "summary": "GetMessagesByWriterAndRecipientUsers",
+                "responses": {
+                    "200": {
+                        "description": "Good",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "meta": {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "type": "object",
+                                            "properties": {
+                                                "messages": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer"
+                                                            },
+                                                            "recipient_user": {
+                                                                "type": "string"
+                                                            },
+                                                            "send_time": {
+                                                                "type": "string",
+                                                                "format": "datetime"
+                                                            },
+                                                            "text": {
+                                                                "type": "string"
+                                                            },
+                                                            "writer_user": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Specified method is invalid for this resource"
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method"
+                    },
+                    "500": {
+                        "description": "Server got itself in trouble"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "post_Message_GetMessagesByWriterAndRecipientUsers",
+                        "in": "body",
+                        "description": "GetMessagesByWriterAndRecipientUsers",
+                        "schema": {
+                            "$ref": "#/definitions/post_Message_GetMessagesByWriterAndRecipientUsers"
+                        },
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/vnd.api+json"
+                ],
+                "operationId": "GetMessagesByWriterAndRecipientUsers_0"
+            }
+        },
+        "/Users/GetUsersOnline": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "GetUsersOnline",
+                "summary": "GetUsersOnline",
+                "responses": {
+                    "200": {
+                        "description": "UsersOnline",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "meta": {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "type": "object",
+                                            "properties": {
+                                                "users": {
+                                                    "type": "array",
+                                                    "items": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Specified method is invalid for this resource"
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method"
+                    },
+                    "500": {
+                        "description": "Server got itself in trouble"
+                    }
+                },
+                "parameters": [
+                    {
+                        "default": "",
+                        "type": "string",
+                        "name": "include",
+                        "in": "query",
+                        "format": "string",
+                        "required": false,
+                        "description": "User relationships to include (csv)"
+                    },
+                    {
+                        "default": "login,password,isOnline",
+                        "type": "string",
+                        "name": "fields[User]",
+                        "in": "query",
+                        "format": "string",
+                        "required": false,
+                        "description": "User fields to include (csv)"
+                    },
+                    {
+                        "name": "varargs",
+                        "in": "query",
+                        "description": "GetUsersOnline arguments",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "produces": [
+                    "application/vnd.api+json"
+                ],
+                "operationId": "GetUsersOnline_0"
+            }
+        },
+        "/Users/Registration": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Registration",
+                "summary": "Registration",
+                "responses": {
+                    "200": {
+                        "description": "Good",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "meta": {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "type": "object",
+                                            "properties": {
+                                                "result": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Specified method is invalid for this resource"
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method"
+                    },
+                    "500": {
+                        "description": "Server got itself in trouble"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "post_User_Registration",
+                        "in": "body",
+                        "description": "Registration",
+                        "schema": {
+                            "$ref": "#/definitions/post_User_Registration"
+                        },
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/vnd.api+json"
+                ],
+                "operationId": "Registration_0"
+            }
+        },
+        "/Users/SendMail": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "SendMail",
+                "summary": "SendMail",
+                "responses": {
+                    "200": {
+                        "description": "Request fulfilled, document follows"
+                    },
+                    "405": {
+                        "description": "Specified method is invalid for this resource"
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method"
+                    },
+                    "500": {
+                        "description": "Server got itself in trouble"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "post_User_SendMail",
+                        "in": "body",
+                        "description": "SendMail",
+                        "schema": {
+                            "$ref": "#/definitions/post_User_SendMail"
+                        },
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/vnd.api+json"
+                ],
+                "operationId": "SendMail_0"
+            }
+        },
+        "/Users/SetOffline": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "SetOnline",
+                "summary": "SetOnline",
+                "responses": {
+                    "200": {
+                        "description": "Request fulfilled, document follows"
+                    },
+                    "405": {
+                        "description": "Specified method is invalid for this resource"
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method"
+                    },
+                    "500": {
+                        "description": "Server got itself in trouble"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "post_User_SetOffline",
+                        "in": "body",
+                        "description": "SetOnline",
+                        "schema": {
+                            "$ref": "#/definitions/post_User_SetOffline"
+                        },
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/vnd.api+json"
+                ],
+                "operationId": "SetOnline_0"
+            }
+        },
+        "/Users/SignIn": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "SignIn",
+                "summary": "SignIn",
+                "responses": {
+                    "200": {
+                        "description": "Good",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "meta": {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "type": "object",
+                                            "properties": {
+                                                "result": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Specified method is invalid for this resource"
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method"
+                    },
+                    "500": {
+                        "description": "Server got itself in trouble"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "post_User_SignIn",
+                        "in": "body",
+                        "description": "SignIn",
+                        "schema": {
+                            "$ref": "#/definitions/post_User_SignIn"
+                        },
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/vnd.api+json"
+                ],
+                "operationId": "SignIn_0"
+            }
+        }
+    },
+    "definitions": {
+        "post_User_GetUsersOnline": {
+            "properties": {}
+        },
+        "post_User_Registration": {
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/User_Registration1"
+                }
+            }
+        },
+        "User_Registration1": {
+            "properties": {
+                "method": {
+                    "example": "Registration",
+                    "type": "string"
+                },
+                "args": {
+                    "example": {
+                        "login": "string",
+                        "password": "string"
+                    },
+                    "type": "string"
+                }
+            }
+        },
+        "post_User_SendMail": {
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/User_SendMail1"
+                }
+            }
+        },
+        "User_SendMail1": {
+            "properties": {
+                "method": {
+                    "example": "SendMail",
+                    "type": "string"
+                },
+                "args": {
+                    "example": {
+                        "sender_name": "sender_name",
+                        "recipient_name": "recipient_name",
+                        "message_content": "message_content"
+                    },
+                    "type": "string"
+                }
+            }
+        },
+        "post_User_SetOffline": {
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/User_SetOffline1"
+                }
+            }
+        },
+        "User_SetOffline1": {
+            "properties": {
+                "method": {
+                    "example": "SetOffline",
+                    "type": "string"
+                },
+                "args": {
+                    "example": {
+                        "login": "string"
+                    },
+                    "type": "string"
+                }
+            }
+        },
+        "post_User_SignIn": {
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/User_SignIn1"
+                }
+            }
+        },
+        "User_SignIn1": {
+            "properties": {
+                "method": {
+                    "example": "SignIn",
+                    "type": "string"
+                },
+                "args": {
+                    "example": {
+                        "login": "string",
+                        "password": "string"
+                    },
+                    "type": "string"
+                }
+            }
+        },
+        "post_Message_GetMessagesByWriterAndRecipientUsers": {
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/Message_GetMessagesByWriterAndRecipientUsers1"
+                }
+            }
+        },
+        "Message_GetMessagesByWriterAndRecipientUsers1": {
+            "properties": {
+                "method": {
+                    "example": "GetMessagesByWriterAndRecipientUsers",
+                    "type": "string"
+                },
+                "args": {
+                    "example": {
+                        "writer_user": "string",
+                        "recipient_user": "string"
+                    },
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
