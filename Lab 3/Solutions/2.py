@@ -38,4 +38,4 @@ if __name__ == "__main__":
     else:
         print(path[path.rfind('\\') + 1:len(path)])
 
-    printTree("",path,1) 
+    printTree("",path,1)
