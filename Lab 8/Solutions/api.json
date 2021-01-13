@@ -1,0 +1,244 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Mini chat",
+        "description": "\nbased on: https://github.com/thomaxxl/safrs\n",
+        "termsOfService": "",
+        "version": "0.0"
+    },
+    "host": "127.0.0.1:5000",
+    "basePath": "/api",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/Messages/GetMessagesByUserName": {
+            "get": {
+                "tags": [
+                    "Messages"
+                ],
+                "description": "Enter to varargs name",
+                "summary": "GetMessagesByUserName",
+                "responses": {
+                    "200": {
+                        "description": "Good",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "meta": {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "array",
+                                                    "items": "string"
+                                                },
+                                                "writer_user": {
+                                                    "type": "array",
+                                                    "items": "string"
+                                                },
+                                                "recipient_user": {
+                                                    "type": "array",
+                                                    "items": "string"
+                                                },
+                                                "send_time": {
+                                                    "type": "array",
+                                                    "items": "string"
+                                                },
+                                                "text": {
+                                                    "type": "array",
+                                                    "items": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Specified method is invalid for this resource"
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method"
+                    },
+                    "500": {
+                        "description": "Server got itself in trouble"
+                    }
+                },
+                "parameters": [
+                    {
+                        "default": "",
+                        "type": "string",
+                        "name": "include",
+                        "in": "query",
+                        "format": "string",
+                        "required": false,
+                        "description": "Message relationships to include (csv)"
+                    },
+                    {
+                        "default": "writer_user,recipient_user,text,send_time",
+                        "type": "string",
+                        "name": "fields[Message]",
+                        "in": "query",
+                        "format": "string",
+                        "required": false,
+                        "description": "Message fields to include (csv)"
+                    },
+                    {
+                        "name": "varargs",
+                        "in": "query",
+                        "description": "GetMessagesByUserName arguments",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "produces": [
+                    "application/vnd.api+json"
+                ],
+                "operationId": "GetMessagesByUserName_0"
+            }
+        },
+        "/Users/GetAuthenticationStatus": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Enter to varargs user name",
+                "summary": "GetAuthenticationStatus",
+                "responses": {
+                    "200": {
+                        "description": "Good",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "meta": {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "type": "object",
+                                            "properties": {
+                                                "result": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "405": {
+                        "description": "Specified method is invalid for this resource"
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method"
+                    },
+                    "500": {
+                        "description": "Server got itself in trouble"
+                    }
+                },
+                "parameters": [
+                    {
+                        "default": "",
+                        "type": "string",
+                        "name": "include",
+                        "in": "query",
+                        "format": "string",
+                        "required": false,
+                        "description": "User relationships to include (csv)"
+                    },
+                    {
+                        "default": "name",
+                        "type": "string",
+                        "name": "fields[User]",
+                        "in": "query",
+                        "format": "string",
+                        "required": false,
+                        "description": "User fields to include (csv)"
+                    },
+                    {
+                        "name": "varargs",
+                        "in": "query",
+                        "description": "GetAuthenticationStatus arguments",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "produces": [
+                    "application/vnd.api+json"
+                ],
+                "operationId": "GetAuthenticationStatus_0"
+            }
+        },
+        "/Users/SendMail": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Invoke User.SendMail",
+                "summary": "Invoke User.SendMail",
+                "responses": {
+                    "200": {
+                        "description": "Request fulfilled, document follows"
+                    },
+                    "405": {
+                        "description": "Specified method is invalid for this resource"
+                    },
+                    "400": {
+                        "description": "Bad request syntax or unsupported method"
+                    },
+                    "500": {
+                        "description": "Server got itself in trouble"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "post_User_SendMail",
+                        "in": "body",
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/post_User_SendMail"
+                        },
+                        "required": true
+                    }
+                ],
+                "produces": [
+                    "application/vnd.api+json"
+                ],
+                "operationId": "InvokeUserSendMail_0"
+            }
+        }
+    },
+    "definitions": {
+        "post_User_GetAuthenticationStatus": {
+            "properties": {}
+        },
+        "post_User_SendMail": {
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/User_SendMail1"
+                }
+            }
+        },
+        "User_SendMail1": {
+            "properties": {
+                "method": {
+                    "example": "SendMail",
+                    "type": "string"
+                },
+                "args": {
+                    "example": {
+                        "sender_name": "sender_name",
+                        "recipient_name": "recipient_name",
+                        "message_content": "message_content"
+                    },
+                    "type": "string"
+                }
+            }
+        },
+        "post_Message_GetMessagesByUserName": {
+            "properties": {}
+        }
+    }
+}

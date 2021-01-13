@@ -1,3 +1,4 @@
+
 @ECHO off
 
 SET space=--
@@ -20,4 +21,5 @@ GOTO :eof
 SET string=%1
 SET string=%string:"=%
 ECHO  ^|%2%string%
+
 GOTO :eof

@@ -7,5 +7,6 @@ if __name__ == "__main__":
     listNumbers.reverse()
     listNumbers.pop()
     listNumbers.sort()
+
     print(listNumbers)
- 
+

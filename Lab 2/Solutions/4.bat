@@ -27,5 +27,3 @@ ECHO 1
 
 :end
 ENDLOCAL
-
-PAUSE
