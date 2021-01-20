@@ -54,7 +54,7 @@ def GetAllMessageBerween2Users(writerName, recipientName):
         return api_response.meta.result.messages
 
 
-def GetUsersOnline():
+def GetUsers():
     with openapi_client.ApiClient() as api_client:
         # Create an instance of the API class
         api_instance = openapi_client.UsersApi(api_client)

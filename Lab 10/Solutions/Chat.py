@@ -2,6 +2,7 @@ import datetime
 from tkinter import *
 from apiCalls import *
 import socketio
+from operator import itemgetter, attrgetter, methodcaller
 
 sio = socketio.Client()
 
@@ -9,32 +10,36 @@ sio = socketio.Client()
 @sio.event
 def userSignIn(data):
     if data['name'] != helper.getChat().login:
-        helper.getChat().UpdateOnlineUsersList()
+        helper.getChat().UpdateUsersList()
 
 
 @sio.event
 def userSignOut(data):
     if data['name'] != helper.getChat().login:
-        helper.getChat().UpdateOnlineUsersList()
+        helper.getChat().UpdateUsersList()
+
+
+@sio.event
+def userRegistered(data):
+    if data['name'] != helper.getChat().login:
+        helper.getChat().UpdateUsersList()
 
 
 @sio.event
 def userSendMessage(msg):
     if msg['recipient_name'] == helper.getChat().login:
         if helper.getChat().selectedUser == msg['sender_name']:
-            print(msg)
             msgN = InlineResponse200MetaResultMessages(
                 send_time=msg['send_date'],
                 text=msg['text'], writer_user=msg['sender_name'], is_read=True)
             SetMessageStatus(msg['id'])
             helper.getChat().CreateMessage(msgN, 15)
         else:
-            helper.getChat().UpdateOnlineUsersList()
+            helper.getChat().UpdateUsersList()
+
 
 @sio.event
 def userReadMessage(msg):
-    print("userReadMessage")
-    print(msg)
     if msg['writer'] == helper.getChat().login:
         if helper.getChat().selectedUser == msg['recipient']:
             helper.getChat().UpdateMessages()
@@ -73,7 +78,7 @@ class Chat:
         writer = msg.writer_user if msg.writer_user != self.login else "Me"
         isRead = "Read" if msg.is_read else "Unread"
         sendDate = writer + "[" + datetime.datetime.strptime(msg.send_time, '%Y-%m-%d %H:%M:%S.%f').strftime(
-            "%m/%d/%Y, %H:%M:%S") + "]["+isRead+"]"
+            "%m/%d/%Y, %H:%M:%S") + "][" + isRead + "]"
         frameMessage = LabelFrame(self.messageHistory, text=sendDate, bg="white")
         Label(frameMessage, text=msg.text, width=15, anchor='w',
               font=("comic sans ms", 8), bg="white").pack()
@@ -99,7 +104,7 @@ class Chat:
         messages = GetAllMessageBerween2Users(self.login, self.selectedUser)
         messages.sort(key=lambda x: x.send_time)
         for msg in messages:
-            helper.getChat().UpdateOnlineUsersList()
+            helper.getChat().UpdateUsersList()
             if msg.recipient_user == self.login:
                 messageHistoryXOffset = 15
             else:
@@ -113,7 +118,7 @@ class Chat:
             self.messageHistory.update_idletasks()
             self.messageHistory.yview_moveto(0)
 
-    def OnUserOnlineListSelect(self, event):
+    def OnUserListSelect(self, event):
         widget = event.widget
         if len(widget.curselection()) == 0:
             return
@@ -134,7 +139,7 @@ class Chat:
         verticalScrollBarBox = Scrollbar(frameUsers, command=self.box.yview)
         verticalScrollBarBox.pack(side="left", expand=True, fill="y")
         self.box.config(yscrollcommand=verticalScrollBarBox.set)
-        self.box.bind('<<ListboxSelect>>', self.OnUserOnlineListSelect)
+        self.box.bind('<<ListboxSelect>>', self.OnUserListSelect)
 
         self.frameMessages = LabelFrame(self.root, text="Messages")
         self.frameMessages.pack(side=LEFT, fill=BOTH)
@@ -153,29 +158,33 @@ class Chat:
         Button(frameNewMessage, text="Send", command=self.SendMessage).pack(side="left")
         frameNewMessage.pack(side="bottom", fill=BOTH)
 
-        self.UpdateOnlineUsersList()
+        self.UpdateUsersList()
 
         self.root.mainloop()
 
-    def UpdateOnlineUsersList(self):
-        # select = list(self.box.curselection())
-        # if len(select) == 0:
-        #     select = [0]
-
+    def UpdateUsersList(self):
         self.box.delete('0', 'end')
         unreadMessagesInfo = GetUnreadMessagesInfo(self.login)
-        usersOnline = GetUsersOnline()
+        users = GetUsers()
+        unreadMessagesInfo = sorted(unreadMessagesInfo, key=attrgetter('last_message_date_time'), reverse=True)
         for msg in unreadMessagesInfo:
-            isOnline = True if len(list(filter(lambda x: x == msg.writer, usersOnline))) != 0 else False
-            userInfo = msg.writer + " [" + str(msg.count) + "] "
-            userInfo += "On" if isOnline else "Off"
+            isOnline = list(filter(lambda x: x.name == msg.writer, users))[0].status
+            userInfo = msg.writer
+            if msg.count != 0:
+                userInfo = msg.writer + " [" + str(msg.count) + "]"
+
             if self.selectedUser == msg.writer:
                 userInfo = msg.writer
+
+            userInfo += " [On]" if isOnline else "[Off]"
             self.box.insert(END, userInfo)
 
-        for user in usersOnline:
-            if user != self.login and len(list(filter(lambda x: x.writer == user, unreadMessagesInfo))) == 0:
-                self.box.insert(END, user)
+        users = sorted(users, key=attrgetter('status'), reverse=True)
+        for user in users:
+            if user.name != self.login and len(list(filter(lambda x: x.writer == user.name, unreadMessagesInfo))) == 0:
+                userInfo = user.name
+                userInfo += " [On]" if user.status else " [Off]"
+                self.box.insert(END, userInfo)
 
 
 class Helper():

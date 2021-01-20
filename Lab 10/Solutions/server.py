@@ -90,7 +90,7 @@ class Message(BaseModel):
                                                                             },
                                                                         "isRead":{
                                                                                 "type":"boolean"
-                                                                            },
+                                                                            }
 
                                                                     }
                                                                 }
@@ -119,7 +119,9 @@ class Message(BaseModel):
                 message["isRead"] = msg.isRead
                 if mode and msg.isRead == False:
                     db.session.query(Message).filter_by(id=msg.id).first().isRead = True
+                    db.session.commit()
                     message["isRead"] = True
+
                 content["messages"].append(message)
 
         helpFunk(recipientUser, writerUser)
@@ -161,10 +163,11 @@ class Message(BaseModel):
                                                                             },
                                                                         "lastMessageDateTime":{
                                                                                 "type":"string",
+                                                                                "format": "datetime",
                                                                             },
                                                                         "writer":{
                                                                                 "type":"string",
-                                                                            },
+                                                                            }
                                                                     }
                                                                 }
                                                             }
@@ -186,6 +189,7 @@ class Message(BaseModel):
                         contentMsg["count"] += 1
                     contentMsg["last"] = msg.text
                     contentMsg["lastMessageDateTime"] = msg.sendTime
+
                     break
 
             if not isExistUserInContent:
@@ -195,8 +199,9 @@ class Message(BaseModel):
                 if msg.isRead:
                     message["count"] = 0
                 message["last"] = msg.text
+                message["lastMessageDateTime"] = msg.sendTime
                 content["messages"].append(message)
-                content["lastMessageDateTime"] = msg.sendTime
+
         return content
 
     @classmethod
@@ -254,7 +259,7 @@ class User(BaseModel):
                                             "result":{
                                                 "type":"object",
                                                 "properties":{
-                                                        "result":"string",
+                                                        "result":"string"
                                                     }
                                                 }
                                             }
@@ -308,7 +313,7 @@ class User(BaseModel):
                                             "result":{
                                                 "type":"object",
                                                 "properties":{
-                                                        "result":"string",
+                                                        "result":"string"
                                                     }
                                                 }
                                             }
@@ -320,6 +325,7 @@ class User(BaseModel):
         if user is not None:
             return {"result": "failed"}
         user = User(login=login, password=password)
+        socketio.emit('userRegistered', {'name': login})
         db.session.add(user)
         db.session.commit()
         return {"result": "success"}
@@ -348,7 +354,7 @@ class User(BaseModel):
 
     @classmethod
     @jsonapi_rpc(http_methods=['GET'])
-    def GetUsersOnline(cls, *args, **some_body_key):
+    def GetUsers(cls, *args, **some_body_key):
         """
             description : GetUsersOnline
             summary: GetUsersOnline
@@ -366,8 +372,18 @@ class User(BaseModel):
                                                 "type":"object",
                                                 "properties":{
                                                         "users":{
-                                                            "type":"array",
-                                                            "items":"string"
+                                                            "type": "array",
+                                                                "items": {
+                                                                    "type":"object",
+                                                                    "properties":{
+                                                                        "name":{
+                                                                                "type":"string",
+                                                                            },
+                                                                        "status":{
+                                                                                "type":"boolean",
+                                                                            }
+                                                                    }
+                                                                }
                                                         }
                                                     }
                                                 }
@@ -377,8 +393,9 @@ class User(BaseModel):
                         }
         """
         content = {"users": []}
-        for user in db.session.query(User).filter_by(isOnline=True).all():
-            content["users"].append(user.login)
+        for user in db.session.query(User).all():
+            userData ={"name":user.login, "status":user.isOnline}
+            content["users"].append(userData)
         return content
 
 
@@ -438,7 +455,7 @@ def start_api(swagger_host="127.0.0.1", PORT=None):
         except Exception as exc:
             print(f"Failed to add flask-admin view {exc}")
 
-
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 API_PREFIX = "/api"  # swagger location
 app = Flask("SAFRS Demo App", template_folder="/home/thomaxxl/mysite/templates")
 app.secret_key = "not so secret"
