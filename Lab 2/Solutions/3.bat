@@ -6,5 +6,3 @@ IF %errorLevel% == 0 (
 ) ELSE (
     ECHO Failure: Prawa administratora nie będą nadane.
 )
-
-PAUSE 	
